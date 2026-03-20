@@ -1,4 +1,5 @@
 import os
+import shutil
 
 
 def move_file(command: str) -> None:
@@ -10,9 +11,12 @@ def move_file(command: str) -> None:
             filename = os.path.basename(second_file)
             if directory:
                 os.makedirs(directory, exist_ok=True)
-            with (
-                open(first_file, "r") as file_in,
-                open(os.path.join(directory, filename), "w") as file_out
-            ):
-                file_out.write(file_in.read())
-            os.remove(first_file)
+            if filename:
+                with (
+                    open(first_file, "r") as file_in,
+                    open(os.path.join(directory, filename), "w") as file_out
+                ):
+                    file_out.write(file_in.read())
+                os.remove(first_file)
+            else:
+                shutil.move(first_file, directory)
